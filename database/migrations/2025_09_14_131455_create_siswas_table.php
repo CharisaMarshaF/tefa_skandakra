@@ -13,7 +13,8 @@ return new class extends Migration {
             $table->string('nisn', 30)->nullable();
             $table->string('nama_lengkap', 150);
             $table->enum('gender', ['L', 'P']);
-            $table->date('TTL')->nullable();
+            $table->string('tempat_lahir', 150)->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->text('alamat')->nullable();
             $table->string('phone', 30)->nullable();
             $table->string('email', 150)->nullable();
