@@ -1,4 +1,3 @@
-@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -42,4 +41,4 @@
         @endforelse
     </ul>
 </div>
-@endsection
+

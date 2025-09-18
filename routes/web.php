@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Siswa\DashboardController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -49,9 +50,7 @@ Route::middleware(['auth', 'role:5'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:6'])->group(function () {
-    Route::get('/dashboard-siswa', function () {
-        return "Halaman khusus Siswa";
-    });
+    Route::get('/dashboard-siswa', [DashboardController::class, 'index'])->name('dashboard.siswa');
 });
 
 Route::middleware(['auth', 'role:7'])->group(function () {

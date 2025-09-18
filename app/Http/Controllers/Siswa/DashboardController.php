@@ -25,23 +25,23 @@ class DashboardController extends Controller
             ->count();
 
         // 2. Total project aktif siswa
-        $totalProjectAktif = DB::table('project_member')
-            ->join('projects', 'project_member.id_project', '=', 'projects.id')
-            ->where('project_member.id_siswa', $siswa->id)
+        $totalProjectAktif = DB::table('project_members')
+            ->join('projects', 'project_members.id_project', '=', 'projects.id')
+            ->where('project_members.id_siswa', $siswa->id)
             ->where('projects.status', 'proses')
             ->count();
 
         // 3. Progress rata-rata semua project siswa
         $progressRataRata = DB::table('project_progress')
-            ->join('project_member', 'project_progress.id_project', '=', 'project_member.id_project')
-            ->where('project_member.id_siswa', $siswa->id)
+            ->join('project_members', 'project_progress.id_project', '=', 'project_members.id_project')
+            ->where('project_members.id_siswa', $siswa->id)
             ->avg('project_progress.progress_percent');
 
         $progressRataRata = round($progressRataRata ?? 0);
 
         // 4. List project aktif beserta progress
         $projects = DB::table('projects')
-            ->join('project_member', 'projects.id', '=', 'project_member.id_project')
+            ->join('project_members', 'projects.id', '=', 'project_members.id_project')
             ->leftJoin('project_progress', 'projects.id', '=', 'project_progress.id_project')
             ->select(
                 'projects.nama_project',
@@ -49,7 +49,7 @@ class DashboardController extends Controller
                 'projects.deadline',
                 DB::raw('COALESCE(MAX(project_progress.progress_percent), 0) as progress')
             )
-            ->where('project_member.id_siswa', $siswa->id)
+            ->where('project_members.id_siswa', $siswa->id)
             ->groupBy('projects.id', 'projects.nama_project', 'projects.expected_output', 'projects.deadline')
             ->get();
 
